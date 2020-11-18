@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 
-__global__ void squareKernel(int* data, int N);
+__global__ void squareKernel(int* data);
 
 int main(int argc, char** argv)
 {
@@ -29,7 +29,7 @@ int main(int argc, char** argv)
 
 	//grid - количество блоков
 	//block - размер блока
-	squareKernel<<<grid, block>>>(d_data, n);
+	squareKernel<<<grid, block>>>(d_data);
 
 	//копируем данные с устройства (d_data) на хост (h_data)
 	cudaMemcpy(h_data, d_data, n * sizeof(int), cudaMemcpyDeviceToHost);
@@ -47,7 +47,7 @@ int main(int argc, char** argv)
 	return 0;
 }
 
-__global__ void squareKernel(int* data, int N)
+__global__ void squareKernel(int* data)
 {
 	//threadIdx – номер нити в блоке
 	//blockIdx – номер блока, в котором находится нить
